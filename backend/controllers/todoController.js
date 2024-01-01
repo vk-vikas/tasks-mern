@@ -14,3 +14,12 @@ export const addTodo = async (req, res) => {
     console.log(err.message);
   }
 };
+
+export const getAllTodos = async (req, res) => {
+  try {
+    const todos = await Todo.find({});
+    res.status(200).json(todos);
+  } catch (error) {
+    console.log(error);
+  }
+};

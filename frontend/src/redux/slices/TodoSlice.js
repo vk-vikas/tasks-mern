@@ -1,13 +1,7 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
+import { getAllTodos, addNewTodo } from "../thunks/TodoThunks";
 
 const initialState = [];
-const API_URL = "http://localhost:8000";
-
-export const addNewTodo = createAsyncThunk("todo/addNewTodo", async (data) => {
-  const res = await axios.post(`${API_URL}/todos`, { data });
-  return res.data;
-});
 
 const TodoSlice = createSlice({
   name: "todo",
@@ -16,6 +10,10 @@ const TodoSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(addNewTodo.fulfilled, (state, action) => {
       state.push(action.payload);
+    });
+    builder.addCase(getAllTodos.fulfilled, (state, action) => {
+      // cannot assign value to state directly , state = something wont work . must return new value
+      return [...action.payload];
     });
   },
 });
