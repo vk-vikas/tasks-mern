@@ -1,7 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
+import { MdDeleteForever, MdEdit } from "react-icons/md";
+import "./Todos.css";
+import { useDispatch } from "react-redux";
+import {
+  toggleDoneTodo,
+  updateTodo,
+  deleteTodo,
+} from "../redux/thunks/TodoThunks";
 
 const Todo = ({ todo }) => {
-  return <li className="todo">{todo.title}</li>;
+  const dispatch = useDispatch();
+  const [isEditing, setIsEditing] = useState(false);
+  const [text, setText] = useState(todo.data);
+
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    setIsEditing((prev) => !prev);
+    dispatch(updateTodo(todo._id, text));
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteTodo(todo._id));
+  };
+
+  return (
+    <li className="todo">
+      <span
+        style={{ display: isEditing ? "none" : "" }}
+        onClick={() => dispatch(toggleDoneTodo(todo._id))}
+        className={`${todo.done ? "done" : ""}`}
+      >
+        {todo.title}
+      </span>
+      <form
+        style={{ display: isEditing ? "inline" : "none" }}
+        onSubmit={onFormSubmit}
+      >
+        <input
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          className="edit-input"
+        />
+      </form>
+      <div>
+        <span className="icon" onClick={() => setIsEditing((prev) => !prev)}>
+          <MdEdit />
+        </span>
+        <span className="icon">
+          <MdDeleteForever style={{ color: "red" }} onClick={handleDelete} />
+        </span>
+      </div>
+    </li>
+  );
 };
 
 export default Todo;

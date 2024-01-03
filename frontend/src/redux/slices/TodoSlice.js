@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllTodos, addNewTodo } from "../thunks/TodoThunks";
+import {
+  getAllTodos,
+  addNewTodo,
+  toggleDoneTodo,
+  updateTodo,
+  deleteTodo,
+} from "../thunks/TodoThunks";
 
 const initialState = [];
 
@@ -14,6 +20,17 @@ const TodoSlice = createSlice({
     builder.addCase(getAllTodos.fulfilled, (state, action) => {
       // cannot assign value to state directly , state = something wont work . must return new value
       return [...action.payload];
+    });
+    builder.addCase(toggleDoneTodo.fulfilled, (state, action) => {
+      return state.map((todo) =>
+        todo._id === action.payload._id ? { ...todo, done: !todo.done } : todo
+      );
+    });
+    builder.addCase(updateTodo.fulfilled, (state, action) => {
+      return [...action.payload];
+    });
+    builder.addCase(deleteTodo.fulfilled, (state, action) => {
+      return state.filter((todo) => todo._id !== action.payload._id);
     });
   },
 });
