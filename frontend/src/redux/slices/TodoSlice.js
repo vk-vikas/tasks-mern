@@ -8,6 +8,12 @@ import {
 } from "../thunks/TodoThunks";
 
 const initialState = [];
+const API_URL = "http://localhost:8000";
+
+export const addNewTodo = createAsyncThunk("todo/addNewTodo", async (data) => {
+  const res = await axios.post(`${API_URL}/todos`, { data });
+  return res.data;
+});
 
 const TodoSlice = createSlice({
   name: "todo",

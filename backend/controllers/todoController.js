@@ -23,18 +23,3 @@ export const getAllTodos = async (req, res) => {
     console.log(error);
   }
 };
-
-export const toggleDoneTodo = async (req, res) => {
-  try {
-    const todoRef = await Todo.findById(req.params.id);
-    const updatedTodo = await Todo.findOneAndUpdate(
-      { _id: req.params.id }, // 1st para filter obj
-      { done: !todoRef.done }, // 2nd para update obj
-      { new: true } // now this sends the updated doc
-    );
-
-    res.status(200).json(updatedTodo);
-  } catch (error) {
-    console.log(error);
-  }
-};
