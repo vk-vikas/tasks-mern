@@ -8,12 +8,6 @@ import {
 } from "../thunks/TodoThunks";
 
 const initialState = [];
-const API_URL = "http://localhost:8000";
-
-export const addNewTodo = createAsyncThunk("todo/addNewTodo", async (data) => {
-  const res = await axios.post(`${API_URL}/todos`, { data });
-  return res.data;
-});
 
 const TodoSlice = createSlice({
   name: "todo",
@@ -33,7 +27,11 @@ const TodoSlice = createSlice({
       );
     });
     builder.addCase(updateTodo.fulfilled, (state, action) => {
-      return [...action.payload];
+      return state.map((todo) => {
+        return todo._id === action.payload._id
+          ? { ...todo, title: action.payload.title }
+          : todo;
+      });
     });
     builder.addCase(deleteTodo.fulfilled, (state, action) => {
       return state.filter((todo) => todo._id !== action.payload._id);

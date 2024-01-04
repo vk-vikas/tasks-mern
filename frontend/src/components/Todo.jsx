@@ -11,12 +11,14 @@ import {
 const Todo = ({ todo }) => {
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
-  const [text, setText] = useState(todo.data);
+  const [text, setText] = useState(todo.title);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
     setIsEditing((prev) => !prev);
-    dispatch(updateTodo(todo._id, text));
+    dispatch(updateTodo({ id: todo._id, text }));
+    // needs to be send as an object cause createasyn fun can only take one passed parameter
+    // as the second para is tunkAPI
   };
 
   const handleDelete = () => {
