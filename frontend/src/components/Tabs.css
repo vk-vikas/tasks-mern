@@ -1,0 +1,25 @@
+.tabs {
+  margin: 30px 0 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tab-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: #5d3587;
+  min-width: 80px;
+}
+
+.selected-tab {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: white;
+  background-color: #5d3587;
+  min-width: 80px;
+}
